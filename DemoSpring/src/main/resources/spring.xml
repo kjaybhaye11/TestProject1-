@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans  xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+   <bean id="s1" class="com.ait.Student">
+   
+   <property name="sid" value="101"></property>
+   <property name="sname" value="kunal"></property>
+    <property name="percent" value="88"></property>
+    <property name="course" ref="c1"></property>
+   
+   </bean>
+   
+   
+    <bean id="s2" class="com.ait.Student">
+    <constructor-arg ref="c1" />
+     </bean>
+     
+      
+    <bean id="c1" class="com.ait.Course">
+    <constructor-arg name="coursename" value="java"></constructor-arg>
+     <constructor-arg name="fees" value="40000"></constructor-arg>
+    
+  </bean>
+     
+   
+   <!--  <bean id="s2" class="com.ait.Student">
+    <constructor-arg value="102"/>
+    <constructor-arg value="Priya"/>
+    <constructor-arg value="88"/>
+    </bean>  --> 
+   
+    
+
+</beans>
