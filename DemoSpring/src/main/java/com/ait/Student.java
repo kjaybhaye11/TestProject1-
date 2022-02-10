@@ -1,4 +1,4 @@
-package com.ait;
+ package com.ait;
 
 public class Student {
 
@@ -34,6 +34,17 @@ public class Student {
 	}
 	public int getSid() {
 		return sid;
+	}
+	public Student(Course course) {
+		super();
+		this.course = course;
+	}
+	public Student(int sid, String sname, int percent, Course course) {
+		super();
+		this.sid = sid;
+		this.sname = sname;
+		this.percent = percent;
+		this.course = course;
 	}
 	public void setSid(int sid) {
 		this.sid = sid;

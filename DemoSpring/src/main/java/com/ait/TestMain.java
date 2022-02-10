@@ -13,9 +13,9 @@ public class TestMain {
 		System.out.println(ob);
 	
 		
-		Student ob2 =(Student) ctx.getBean("s2");
-		System.out.println(ob2);
-		
+		Student ob1 =(Student) ctx.getBean("s2");
+		System.out.println(ob1);
+		 
 		
 		
 	}
