@@ -42,6 +42,9 @@ body {
 
 
 </form>
+<h4 >
+    <a class="btn btn-primary" style="align-self: center" href="logout" role="button">Back</a>
+    </h4>
 </center>
 </body>
 </html> 

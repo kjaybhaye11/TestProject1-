@@ -74,8 +74,10 @@ body {
 </div>
 
 <br>
+<center>
 <h4> &nbsp;
  <a href="viewproduct"> Back To View Product</a> </h4>
+</center>
 
 </body>
 </html>

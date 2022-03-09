@@ -24,9 +24,14 @@
  
  
  <h2 align ="center">  Done order <%=session.getAttribute("username") %>  </h2>
+ 
+ 
+ 
 </center> 
  
-<h4 align=" right" >
+ 
+ 
+<h4 align=" center" >
     <a class="btn btn-primary" style="align-self: center" href="logout" role="button">Logout</a>
     </h4>
   

@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +26,7 @@ import com.tqpp.Service.OrderServices;
 import com.tqpp.Service.ProductService;
 import com.tqpp.Service.UserService;
 import com.tqpp.item.Item;
+import com.tqpp.item.StockNotAvailableException;
 
 
 @Controller
@@ -64,27 +67,9 @@ public class LoginController {
 		return "redirect:/signin";
 	}
 	
-/*	@GetMapping("/validateuser")
-	
-	public String ValidateUser(@ModelAttribute User user, HttpServletRequest req) {
-		System.out.println("&&&&&&&&&&&&&&" + user);
-		String usernm = user.getUserName();
-		String pass = user.getPassword();
-		User u1 = uservices.getUserByNameAndPassword(usernm, pass);
-		System.out.println("##########################"+u1);
-		if (u1 == null) {
-	 		req.setAttribute("status", "Invalid username and password");
-			return ;
-		} else 
-		{
-			HttpSession session = req.getSession();
-			return "home";
 
-
-		}
-	}*/
 	
-	@GetMapping("/validateuser")
+	/*@GetMapping("/validateuser")
 	  public String ValidateUser(@ModelAttribute User user, HttpServletRequest req,Model m) {
 
 		System.out.println();
@@ -112,11 +97,67 @@ public class LoginController {
 					return "redirect:/view";
 				else
 					return "redirect:/viewproduct";
-				
+				}
+			}*/
+	
+	
+	
+	@GetMapping("/validateuser")
+	public String ValidateUser(@ModelAttribute User user, HttpServletRequest req, Model m) {
 
+		System.out.println();
+		String usernm = user.getUserName();
+		String pass = user.getPassword();
+		System.out.println("============================================="+usernm);
+		System.out.println("============================================="+pass);
+		
+		List<User> u1 =uservices.getUserByName(usernm);
+		if (u1 == null || u1.size()==0) 
+		{
+			m.addAttribute("status", "Invalid username and password");
+			return "forward:/signin";
+		} 
+		else
+		{
+			User ur=null;
+			for(User uu:u1)
+			{
+				if(BCrypt.checkpw(pass, uu.getPassword()))
+				{
+					ur=uu;
+					break;
+					
+				}
+				
 			}
+			if(ur==null)
+			{
+				req.setAttribute("status", "Invalid Password");
+				return "forward:/signin";
+			}
+				
+			HttpSession session = req.getSession();
+		//	String role = ((User) u1).getRole().getRoleType();
+			ArrayList<Item> cartlist = new ArrayList<Item>();
+			session.setAttribute("cartlist", cartlist);
+	    //  session.setAttribute("userrole", role);
+			session.setAttribute("username", ur.getUserName());
+			session.setAttribute("userid", ur.getUserId());
+			session.setAttribute("total", 0.0);
+
+			if (ur.getRole().getRoleType().equalsIgnoreCase("admin"))
+              {
+				return "redirect:/view";
+              }
+			else
+				return "redirect:/viewproduct";
 
 		}
+
+	}
+	
+	
+	
 	
 	@GetMapping("/viewproduct")
 	public ModelAndView viewProducts() 
@@ -130,7 +171,7 @@ public class LoginController {
 	}
 	
 	
-	@GetMapping("/cart")
+	/*@GetMapping("/cart")
 	 public String addCard(HttpServletRequest request)
 	 {
 		 HttpSession session=request.getSession(false);
@@ -153,9 +194,52 @@ public class LoginController {
 	       
 	    		  return "forward:/viewproduct";
              }
+	}*/
+	
+	@GetMapping("/cart")
+	public String addCard(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		ArrayList<Item> list = (ArrayList<Item>) session.getAttribute("cartlist");
+		if (session == null)
+			return "redirect:/signin";
+		else {
+			int Pid = Integer.parseInt(request.getParameter("id"));
+			Double total = (Double) session.getAttribute("total");
+
+			Product p = prodservice.getProductById(Pid);
+			
+           int qun = Integer.parseInt(request.getParameter("quan"));
+			total=total+p.getPrice()*qun;
+			boolean isPresent =false;
+			for(Item i: list)
+			{
+				if(i.getItemid()==p.getPid())
+				{
+					int q=i.getQuantity();
+					i.setQuantity(q+qun);
+					isPresent =true;
+				}
+			}
+			
+			if(!isPresent)
+			{
+				
+		   list.add(new Item(p.getPid(),p.getPname(),p.getPrice(),qun));
+			
+			}
+	//		int total =(pr.getPrice())*qun;
+			
+			session.setAttribute("itemlist", list);
+			session.setAttribute("total", total);
+			
+			return "forward:/viewproduct";
+			
+			
+		}
+	
 	}
 	
-
+	
     
     @GetMapping("/viewcart")
 	 public String showCard(HttpServletRequest request,Model m)
@@ -171,8 +255,12 @@ public class LoginController {
 		 return "viewcart";
 	}
 	
+	
+	
+	
+	
     
-    @GetMapping("/placeorder")
+  /*  @GetMapping("/placeorder")
     public String placeorder(HttpServletRequest request)
     {
     	HttpSession httpsession=request.getSession(false);
@@ -187,6 +275,7 @@ public class LoginController {
      	Order or=new Order();
     	or.setOrderDate(LocalDate.now());
      	or.setUser(u);
+     	or.setOrder_status("Placed");
      	System.out.println("########"+u);
      	
      	 List<OrderDetails> or_details= or.getOrderdetails();
@@ -204,8 +293,64 @@ public class LoginController {
     	orderservices.addOrder(or);
     	
     	return"finalview";
-    }
+    }*/
 	
+    
+    @GetMapping("/placeorder")
+	public String placeorder(HttpServletRequest req)  throws StockNotAvailableException {
+	//
+		HttpSession httpsession = req.getSession(false);
+
+		ArrayList<Item> cart = (ArrayList<Item>) httpsession.getAttribute("cartlist");
+		List<Product> plist = prodservice.getAllProducts();
+
+		int uid = (int) httpsession.getAttribute("userid");
+		User u = uservices.getUserById(uid);
+
+		Order or = new Order();
+		or.setOrder_status("Placed");
+		or.setOrderDate(LocalDate.now());
+		or.setUser(u);
+		List<OrderDetails> or_details = or.getOrderdetails();
+
+		for (Product p : plist) {
+			for (Item item : cart) {
+				if (item.getItemid() == p.getPid()) {
+	
+				//	productservice.manageStock(p.getProductId(),item.getQuantity();		
+				//	or_details.add(new OrderDetails(or, p, item.getQuantity()));
+					if((p.getStockinhand()-item.getQuantity())<0)
+						{
+							throw new StockNotAvailableException();
+						}
+						else
+						{
+							
+						prodservice.manageStock(p.getPid(),item.getQuantity());
+						
+						or_details.add(new OrderDetails(or, p, item.getQuantity()));
+					
+						}	
+				}
+			}
+
+		}
+
+		orderservices.addOrder(or);
+
+		return "finalview";
+	}
+    
+    
+    
+    @ExceptionHandler(value=StockNotAvailableException.class)
+	public String stockException(Exception e)
+	{
+		return "stockk";
+	}
+    
+    
+    
        @GetMapping("/logout")
 	public String logout(HttpServletRequest req)
 	{

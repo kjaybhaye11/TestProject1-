@@ -8,9 +8,17 @@
 <title>Insert title here</title>
 </head>
 <body>
+<center>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <h1>Errorrrrrrrr</h1>
+
+<h1>You Dont delete This Product</h1>
 <%=exception.getMessage() %>
 
-
+<h4 >
+    <a class="btn btn-primary" style="align-self: center" href="view" role="button">Back</a>
+    </h4>
+    
+    </center>
 </body>
 </html>

@@ -13,6 +13,22 @@ public class Product {
 	private String pname;
 	private int price;
 	private String pdesc;
+	private int stockinhand;
+	
+	
+	public Product(String pname, int price, String pdesc, int stockinhand) {
+		super();
+		this.pname = pname;
+		this.price = price;
+		this.pdesc = pdesc;
+		this.stockinhand = stockinhand;
+	}
+	public int getStockinhand() {
+		return stockinhand;
+	}
+	public void setStockinhand(int stockinhand) {
+		this.stockinhand = stockinhand;
+	}
 	public Product() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -49,9 +65,11 @@ public class Product {
 	public void setPdesc(String pdesc) {
 		this.pdesc = pdesc;
 	}
+	
 	@Override
 	public String toString() {
-		return "Product [pid=" + pid + ", pname=" + pname + ", price=" + price + ", pdesc=" + pdesc + "]";
+		return "Product [pid=" + pid + ", pname=" + pname + ", price=" + price + ", pdesc=" + pdesc + ", stockinhand="
+				+ stockinhand + "]";
 	}
 	public Product(String pname, int price, String pdesc) {
 		super();

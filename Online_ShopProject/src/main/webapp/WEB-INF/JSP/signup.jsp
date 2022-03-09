@@ -42,6 +42,16 @@
 <form action="addsignup" method="post">
 <h1>....Sign UP....</h1>
 
+
+<head>
+<style>
+body {
+  background-color: powderblue;  
+}  
+</style>
+</head>
+
+
 <table >
 <tr>
 <th>UserName</th><td><input type="text"  name="userName"  required="required" pattern="[A-Za-z]{2,}" ></td>
@@ -53,16 +63,24 @@
 <th>Email</th><td><input type="text"  name="email" required="required" pattern=".{2,}" ></td>
 </tr>
 <tr>
-<th>Mobile</th><td><input type="number"  name="mobile"  required="required" pattern="[789]{1}[0-9]{9}"></td>
+<th>Mobile</th><td><input type="number"  name="mobile"  ></td>
 </tr>
 
 <tr>
 <td colspan="2"><input type="submit" value="submit"></td>
-</tr>
+
+
+
+
 
 </center>
-</table>
 
+
+</table>
+<h4 >
+    <a class="btn btn-primary" style="align-self: center" href="logout" role="button">Back</a>
+    </h4>
+</center>
 
 </body>
 </html> 

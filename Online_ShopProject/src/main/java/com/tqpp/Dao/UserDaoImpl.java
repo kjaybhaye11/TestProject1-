@@ -69,4 +69,15 @@ public class UserDaoImpl implements UserDao{
 		return u;
 	}
 
+	@Override
+	public List<User> getUserByName(String userName) {
+		// TODO Auto-generated method stub
+		
+		String query = "from User u where userName=:n ";
+		Query  q = sessionfactory.getCurrentSession().createQuery(query);
+		q.setParameter("n", userName);
+		List<User> lst= q.list();
+		return lst;
+	}
+
 }

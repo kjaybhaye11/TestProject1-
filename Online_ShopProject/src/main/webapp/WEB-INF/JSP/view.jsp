@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+     <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
       <%@page import="java.util.List,com.tqpp.Model.Product" isELIgnored="false"%>
       <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -6,9 +6,9 @@
 <!DOCTYPE html>
 <html>
 
- 
-
   
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>  
 
 
 <head>
@@ -29,7 +29,7 @@ body {
 </style>
 </head>
 <h4 align=" right" >
-    <a class="btn btn-primary" style="align-self: center" href="validateuser" role="button">Logout</a>
+    <a class="btn btn-primary" style="align-self: center" href="logout" role="button">Logout</a>
     </h4>
 <h1 align ="center">....Product CRUD....</h1> 
 
@@ -44,6 +44,7 @@ body {
 <th>ProductName</th>
 <th>ProductPrice</th>
 <th>ProductDescp</th>
+<th>Stockinhand</th>
 <td>Action</td>
 </tr>
 <c:forEach  var="s1" items="${productlist}">
@@ -52,6 +53,7 @@ body {
 <td>${s1.getPname()}</td>
 <td>${s1.getPrice()}</td>
 <td>${s1.getPdesc()}</td>
+<td>${s1.getStockinhand()}</td>
 <td>
 <a href="edit?id=${s1.getPid()}">Edit</a>
 <a href="delete?id=${s1.getPid()}">Delete</a></td>
@@ -69,4 +71,4 @@ body {
     </h4>
 </center>
 </body>
-</html>
+</html>    

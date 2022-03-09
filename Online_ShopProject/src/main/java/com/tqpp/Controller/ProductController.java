@@ -2,6 +2,7 @@ package com.tqpp.Controller;
 
 import java.util.List;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -114,7 +115,7 @@ public class ProductController {
 		return "redirect:/view";
 	}*/
 	
-	@ExceptionHandler(value=Exception.class)
+	@ExceptionHandler(value=ConstraintViolationException.class)
 	public String someexception(Exception e)
 	{
 		//System.out.println("errorrrrrrrrrrr"+e);

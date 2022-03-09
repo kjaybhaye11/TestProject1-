@@ -17,6 +17,6 @@ public interface ProductService {
 
 	Product getProductById(int id);
 
-	
+	boolean manageStock(int id,int q);
 	
 }

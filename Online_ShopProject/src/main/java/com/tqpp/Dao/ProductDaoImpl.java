@@ -57,6 +57,19 @@ public class ProductDaoImpl implements ProductDao {
 		return sessionFactory.getCurrentSession().get(Product.class, id);
 	}
 
+	/*@Override
+	public boolean manageStock(int id, int q) {
+		// TODO Auto-generated method stub
+		return false;
+	}*/
+
+	@Override
+	public boolean manageStock(int id, int q) {
+		Product p=sessionFactory.getCurrentSession().get(Product.class, id);
+		p.setStockinhand(p.getStockinhand()-q);
+		sessionFactory.getCurrentSession().saveOrUpdate(p);
 	
+		return true;
+	}
 
 }

@@ -40,7 +40,16 @@ function m1(a,ob)
 
 </script>
   
+  
+  
+  
 </head>
+
+
+
+
+
+
 <meta charset="ISO-8859-1">
 <title>Products</title>
 </head>
@@ -69,17 +78,15 @@ body {
 }  
 </style>
 </head>
-
+<h2 align="center"><a href="viewcart">View Cart</a></h2>
 
 <tr>
 <th>ID</th>
 <th>ProductName</th>
 <th>ProductPrice</th>
 <th>ProductDescp</th>
-<th>ProductQuentity</th>
 <th>Action</th>
 </tr>
-
 <c:forEach  var="s1" items="${productlist}">
 <tr>
 <td>${s1.getPid()}</td>
@@ -87,20 +94,14 @@ body {
 <td>${s1.getPrice()}</td>
 <td>${s1.getPdesc()}</td>
 
-<td><input type="number" id="${s1.getPid()}" required="required" pattern="[0-9]{1,}"></td> 
-	<td><a href="" onclick='m1(this,${s1.getPid()})'>Add to Cart</a>
-	</td>
-
-
-
-<!--  <td><a href="cart?id=${s1.getPid()}">Add to Cart</a> -->
+<td><a href="cart?id=${s1.getPid()}">Add to Cart</a>
 
 </tr>
 </c:forEach>
 </table>
 
 
-<h2 align="center"><a href="viewcart">See to Your Cart</a></h2>
+
 
 <h4 >
     <a class="btn btn-primary" style="align-self: center" href="validateuser" role="button">Back</a>

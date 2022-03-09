@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <center>
 <h1>ADD NEW PRODUCT RECORD</h1>
 
@@ -33,6 +33,13 @@ body {
 <th>ProdDescp</th>
 <td><input type="text" name="pdesc"></td>
 </tr>
+
+<tr>
+<th>ProdQuantity</th>
+<td><input type="text" name="stockinhand"></td>
+</tr>
+
+
 <tr>
 <td colspan="2">
 <input type="submit" value="submit">
@@ -41,6 +48,9 @@ body {
 </table>
 </FORM>
 
+<h4 >
+    <a class="btn btn-primary" style="align-self: center" href="view" role="button">Back</a>
+    </h4>
 
 </center>
 </body>
