@@ -297,7 +297,7 @@ public class LoginController {
 	
     
     @GetMapping("/placeorder")
-	public String placeorder(HttpServletRequest req)  throws StockNotAvailableException {
+	public String placeorder(HttpServletRequest req ,Model m)  throws StockNotAvailableException {
 	//
 		HttpSession httpsession = req.getSession(false);
 
@@ -335,6 +335,14 @@ public class LoginController {
 			}
 
 		}
+		
+		//
+		ArrayList <Item> tempproductlist = new ArrayList <> (cart);
+		
+		m.addAttribute("tempproductlist",tempproductlist);
+		
+		
+		//
 
 		orderservices.addOrder(or);
 
